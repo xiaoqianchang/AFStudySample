@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import org.gradle.kotlin.dsl.compileOnly
 import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -168,11 +169,16 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
     implementation("com.google.code.gson:gson:2.10.1")
 //    implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6")
 //    implementation("com.github.bumptech.glide:glide:4.16.0")
 //    implementation("io.github.youth5201314:banner:2.2.3")
 //    implementation("io.github.scwang90:refresh-layout-kernel:2.1.0")
 //    implementation("io.github.scwang90:refresh-header-classics:2.1.0")
+
+    compileOnly(files("libs/framework-compile.jar", "libs/services-compile.jar"))
 }
