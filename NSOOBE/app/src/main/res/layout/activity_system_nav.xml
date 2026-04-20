@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SystemNavActivity">
+
+    <RadioGroup
+        android:id="@+id/rg_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/rb_gesture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手势导航"/>
+
+        <RadioButton
+            android:id="@+id/rb_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="双键导航"/>
+
+        <RadioButton
+            android:id="@+id/rb_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="三键导航"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_complete_oobe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:text="完成"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+  </androidx.constraintlayout.widget.ConstraintLayout>
