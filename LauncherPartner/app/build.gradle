@@ -1,0 +1,92 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+static def gitBranchName() {
+    return 'git symbolic-ref --short -q HEAD'.execute().text.trim()
+}
+
+def buildTime() {
+    return new Date().format("yyyyMMdd_HHmmss", TimeZone.getTimeZone("GMT+08"))
+}
+
+def compileId = "${gitBranchName()}_${buildTime()}"
+
+def keystorePropertiesFile = rootProject.file("signature/keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    namespace 'com.chang.launcherpartner'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.chang.launcherpartner"
+        minSdk 26
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField("String", "FOTA_COMPILE_ID", "\"" + compileId + "\"")
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        config {
+            storeFile file(keystoreProperties.storeFile)
+            storePassword keystoreProperties.storePassword
+            keyAlias keystoreProperties.keyAlias
+            keyPassword keystoreProperties.keyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            minifyEnabled false
+            versionNameSuffix 'dev'
+            signingConfig signingConfigs.config
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "LauncherPartner.apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+//        compose true
+        buildConfig = true
+        viewBinding = true
+        dataBinding = true
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.activity.compose
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.ui
+    implementation libs.androidx.ui.graphics
+    implementation libs.androidx.ui.tooling.preview
+    implementation libs.androidx.material3
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation platform(libs.androidx.compose.bom)
+    androidTestImplementation libs.androidx.ui.test.junit4
+    debugImplementation libs.androidx.ui.tooling
+    debugImplementation libs.androidx.ui.test.manifest
+}

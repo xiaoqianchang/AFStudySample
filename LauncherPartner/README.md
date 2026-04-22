@@ -1,0 +1,1 @@
+# LauncherPartner sample
